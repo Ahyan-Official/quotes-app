@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/nav_fav"
+        android:icon="@drawable/ic_favorite"
+        android:title="Favourite" />
+
+
+    <item
+        android:id="@+id/nav_apps"
+        android:icon="@drawable/ic_apps"
+        android:title="Our Apps" />
+
+    <item
+        android:id="@+id/nav_feedback"
+        android:icon="@drawable/ic_feedback"
+        android:title="Feedback" />
+
+    <item
+        android:id="@+id/nav_rate"
+        android:icon="@drawable/ic_rate"
+        android:title="Rate The App" />
+
+    <item
+        android:id="@+id/nav_share"
+        android:icon="@drawable/ic_share"
+        android:title="Share" />
+
+
+    <item
+        android:id="@+id/nav_policy"
+        android:icon="@drawable/ic_policy"
+        android:title="Privacy" />
+
+
+    <item
+        android:id="@+id/nav_ads"
+        android:icon="@drawable/ic_remove_ads"
+        android:title="Remove Ads" />
+
+
+</menu>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/bottom_home"
+        android:icon="@drawable/ic_home"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/bottom_poem"
+        android:icon="@drawable/ic_poem"
+        android:enabled="true"
+        android:title="Poem" />
+
+    <item
+        android:id="@+id/bottom_quotes"
+        android:icon="@drawable/ic_quote"
+        android:title="Quotes" />
+
+
+    <item
+        android:id="@+id/bottom_proverb"
+        android:icon="@drawable/ic_proverb"
+        android:title="Proverb" />
+
+
+</menu>
