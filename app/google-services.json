@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "29804696160",
+    "project_id": "bulbul-456c8",
+    "storage_bucket": "bulbul-456c8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:29804696160:android:13fca6da86f57a55146905",
+        "android_client_info": {
+          "package_name": "com.rumibalkhi.quotipy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "29804696160-921k5kbp7cl58qaq0r7e5ebpgj8kn4e6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiAnSUcfDHmePhj5uelc3sTZRk3Ag0sPw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "29804696160-921k5kbp7cl58qaq0r7e5ebpgj8kn4e6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

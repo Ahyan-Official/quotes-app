@@ -22,6 +22,7 @@
         app:itemIconTint="@drawable/bottom_selector"
         app:itemTextColor="@drawable/bottom_selector"
         app:labelVisibilityMode="labeled"
+
         app:menu="@menu/bottom_menu" />
 
 

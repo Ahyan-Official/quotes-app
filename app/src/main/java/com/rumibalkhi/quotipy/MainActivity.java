@@ -3,7 +3,13 @@ package com.rumibalkhi.quotipy;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,13 +24,16 @@ import com.rumibalkhi.quotipy.fragments.PoemFrag;
 import com.rumibalkhi.quotipy.fragments.ProverbQuotes;
 import com.rumibalkhi.quotipy.fragments.QuotesFrag;
 
+import org.w3c.dom.Text;
+
 public class MainActivity extends AppCompatActivity {
 
     NavigationView nav;
     DrawerLayout drawerLayout;
 
     BottomNavigationView bottomNavigationView;
-
+    ImageView share,fav;
+    RelativeLayout JobTitles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +41,104 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_drawer);
 
         bottomNavigationView = findViewById(R.id.bottom_nav);
+        share = findViewById(R.id.share);
+        fav = findViewById(R.id.fav);
 
         sideBar();
         setFrags();
+        JobTitles = findViewById(R.id.JobTitles);
+        JobTitles.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                JobTitles.setVisibility(View.GONE);
 
+            }
+        });
+
+        TextView Share = findViewById(R.id.Share);
+        TextView Favorite = findViewById(R.id.Favorite);
+        TextView Feedback = findViewById(R.id.Feedback);
+        TextView Rate = findViewById(R.id.Rate);
+        TextView Privacy = findViewById(R.id.Privacy);
+        ImageView optionMenu = findViewById(R.id.optionMenu);
+
+        Share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(Intent.EXTRA_TEXT, "Hey buddy! Download *" +
+                        getString(R.string.app_name) + "App* get Latest Quotes.. :\n\n https://play.google.com/store/apps/details?id=" +
+                        getPackageName());
+                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+                startActivity(Intent.createChooser(sharingIntent, "ChikuAI Code Dev. Team"));
+
+            }
+        });
+
+        optionMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                JobTitles.setVisibility(View.VISIBLE);
+
+
+            }
+        });
+
+        Favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),FavoriteActivity.class));
+
+            }
+        });
+        Feedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),FeedbackActivity.class));
+
+            }
+        });
+        Privacy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),PrivacyActivity.class));
+
+            }
+        });
+        Rate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String appPackageName = getPackageName();
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                } catch (android.content.ActivityNotFoundException anfe) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                }
+            }
+        });
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(Intent.EXTRA_TEXT, "Hey buddy! Download *" +
+                        getString(R.string.app_name) + "App* get Latest Quotes.. :\n\n https://play.google.com/store/apps/details?id=" +
+                        getPackageName());
+                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+                startActivity(Intent.createChooser(sharingIntent, "ChikuAI Code Dev. Team"));
+
+            }
+        });
+
+        fav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),FavoriteActivity.class));
+
+            }
+        });
     }
 
     private void setFrags() {
@@ -112,6 +215,16 @@ public class MainActivity extends AppCompatActivity {
 
                 case R.id.nav_policy:
 
+                    startActivity(new Intent(getApplicationContext(),PrivacyActivity.class));
+                    break;
+
+                case R.id.nav_feedback:
+
+                    startActivity(new Intent(getApplicationContext(),FeedbackActivity.class));
+                    break;
+                case R.id.nav_fav:
+
+                    startActivity(new Intent(getApplicationContext(),FavoriteActivity.class));
                     break;
 
             }
@@ -136,5 +249,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
+
+
 
 }

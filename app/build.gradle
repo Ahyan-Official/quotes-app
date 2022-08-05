@@ -1,5 +1,7 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
+
 }
 
 android {
@@ -38,4 +40,13 @@ dependencies {
 
     implementation 'com.github.bumptech.glide:glide:4.13.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
+
+    implementation 'com.google.firebase:firebase-storage:20.0.1'
+
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+
+    implementation 'com.google.firebase:firebase-database-ktx:20.0.3'
+    implementation 'com.google.firebase:firebase-auth-ktx:21.0.3'
+    implementation 'com.firebaseui:firebase-ui-database:5.1.0'
+
 }

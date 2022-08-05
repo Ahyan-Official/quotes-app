@@ -1,16 +1,18 @@
-package com.rumibalkhi.quotipy.fragments;
-
-import android.os.Bundle;
+package com.rumibalkhi.quotipy;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.SearchView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -18,40 +20,44 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.rumibalkhi.quotipy.R;
+import com.rumibalkhi.quotipy.adapter.NewFavoriteAdapter;
 import com.rumibalkhi.quotipy.adapter.NewPoemAdapter;
-import com.rumibalkhi.quotipy.adapter.NewQuotesAdapter;
+import com.rumibalkhi.quotipy.models.NewFavouriteModel;
 import com.rumibalkhi.quotipy.models.NewPoemModel;
-import com.rumibalkhi.quotipy.models.NewQuotesModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PoemFrag extends Fragment {
+public class FavoriteActivity extends AppCompatActivity {
 
 
-    View layout;
 
     RecyclerView recyclerView;
-    NewPoemAdapter adapter;
-    public List<NewPoemModel> poemModels = new ArrayList<>();
-
+    NewFavoriteAdapter adapter;
+    public List<NewFavouriteModel> poemModels = new ArrayList<>();
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        layout = inflater.inflate(R.layout.fragment_poem, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_favorite);
 
 
-        SearchView search = layout.findViewById(R.id.search);
-        recyclerView = layout.findViewById(R.id.recycler_quotes);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        SearchView search = findViewById(R.id.search);
+        recyclerView = findViewById(R.id.recycler_quotes);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.hasFixedSize();
 
 
+        poemModels.clear();
+        ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            ab.setTitle((Html.fromHtml("<font color=\"#ffffff\">" + "Favorites" + "</font>")));
+        }
 
-        DatabaseReference dd = FirebaseDatabase.getInstance().getReference().child("poems");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        DatabaseReference dd = FirebaseDatabase.getInstance().getReference().child("favorite");
 
         dd.addValueEventListener(new ValueEventListener() {
             @Override
@@ -61,11 +67,10 @@ public class PoemFrag extends Fragment {
                 for (DataSnapshot dsp : snapshot.getChildren()) {
 
                     String text= dsp.child("text").getValue().toString();
-                    String title= dsp.child("title").getValue().toString();
 
                     Log.e("pooa", "onDataChange: "+text );
 
-                    NewPoemModel qq = new NewPoemModel(text,title);
+                    NewFavouriteModel qq = new NewFavouriteModel(text);
 
 
                     poemModels.add(qq);
@@ -73,7 +78,7 @@ public class PoemFrag extends Fragment {
 
                 }
 
-                adapter = new NewPoemAdapter(getActivity(), poemModels);
+                adapter = new NewFavoriteAdapter(getApplicationContext(), poemModels);
                 recyclerView.setAdapter(adapter);
 
                 adapter.notifyDataSetChanged();
@@ -104,11 +109,18 @@ public class PoemFrag extends Fragment {
                 return false;
             }
         });
-        return layout;
-
-
-
-
     }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
 }

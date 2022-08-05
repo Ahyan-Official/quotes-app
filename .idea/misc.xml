@@ -3,8 +3,31 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/drawable-v24/blue_circularbutton.xml" value="0.1665" />
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/drawable/blue_circularbutton.xml" value="0.1665" />
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/drawable/bottom_selector.xml" value="0.1665" />
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/drawable/button.xml" value="0.1665" />
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/drawable/button_map.xml" value="0.1665" />
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/activity_favorite.xml" value="0.25416666666666665" />
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/activity_feedback.xml" value="0.25416666666666665" />
         <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/activity_main_drawer.xml" value="0.25416666666666665" />
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/activity_poem_detail.xml" value="0.25416666666666665" />
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/activity_privacy.xml" value="0.24010416666666667" />
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/activity_quotes_detail.xml" value="0.25416666666666665" />
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/fragment_home.xml" value="0.25416666666666665" />
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/fragment_poem.xml" value="0.25416666666666665" />
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/fragment_proverb_quotes.xml" value="0.25416666666666665" />
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/fragment_quotes.xml" value="0.25416666666666665" />
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/item_img.xml" value="0.25416666666666665" />
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/item_new_favorite.xml" value="0.25416666666666665" />
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/item_new_poem.xml" value="0.25416666666666665" />
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/item_new_proverb.xml" value="0.25416666666666665" />
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/item_new_quote.xml" value="0.25416666666666665" />
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/item_quotes.xml" value="0.25416666666666665" />
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/nav_header.xml" value="0.25416666666666665" />
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/menu/bottom_menu.xml" value="0.25416666666666665" />
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/menu/menu_drawer.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>

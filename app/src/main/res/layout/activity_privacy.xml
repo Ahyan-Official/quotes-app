@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    tools:context=".PrivacyActivity">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAlignment="center"
+        android:layout_margin="@dimen/_13sdp"
+        android:textColor="#D6D6D6"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam suscipit est a turpis efficitur congue. Duis nec tellus nulla. Duis a lorem eget tortor lobortis blandit. Donec pulvinar velit enim, vel convallis diam commodo nec. Proin volutpat, dui quis rhoncus vehicula, risus ligula elementum ante, sed porta massa ante quis libero. In eros ante, lacinia eget egestas sed, scelerisque sed ex. Vestibulum interdum massa tortor, a auctor enim commodo at. Integer mattis condimentum accumsan.
+
+Proin dignissim, nibh et maximus pretium, dolor diam malesuada tortor, eget tincidunt ligula turpis sit amet diam. Maecenas varius viverra elementum. Donec sodales, nisi sit amet pellentesque condimentum, felis erat iaculis augue, non aliquet odio tellus at diam. Suspendisse potenti. Vivamus efficitur odio quis condimentum condimentum. Aenean eu lectus scelerisque, scelerisque nibh et, congue mauris. Nunc volutpat lorem mauris, ac pretium elit malesuada ut. Proin ultrices enim vitae scelerisque porttitor. Donec vitae risus eu sem consequat rutrum. Pellentesque porttitor id justo aliquam porta. Praesent sit amet est finibus, porttitor turpis ut, scelerisque justo. Donec tristique lectus metus, at imperdiet lectus ultricies a. Donec sit amet ipsum quis nibh cursus ultricies sit amet vitae neque. In viverra massa a lorem sollicitudin venenatis.
+
+Donec vestibulum sapien a mauris tincidunt, gravida faucibus nulla cursus. Maecenas nisl sapien, bibendum eget est vel, vulputate malesuada lorem. Pellentesque at ipsum risus. Sed non eros blandit, pharetra felis ac, luctus eros. Ut eget lorem nec leo imperdiet pulvinar at ac urna. Sed ut dui pulvinar, bibendum tortor ac, luctus urna. Praesent nec suscipit dolor. Donec pulvinar dui facilisis malesuada imperdiet. Etiam tristique condimentum nisi quis euismod. Donec tempor, ipsum molestie sollicitudin finibus, nibh tortor semper enim, sit amet elementum ex felis ac massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit."/>
+
+
+</RelativeLayout>

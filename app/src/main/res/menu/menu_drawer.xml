@@ -8,10 +8,10 @@
         android:title="Favourite" />
 
 
-    <item
-        android:id="@+id/nav_apps"
-        android:icon="@drawable/ic_apps"
-        android:title="Our Apps" />
+<!--    <item-->
+<!--        android:id="@+id/nav_apps"-->
+<!--        android:icon="@drawable/ic_apps"-->
+<!--        android:title="Our Apps" />-->
 
     <item
         android:id="@+id/nav_feedback"
@@ -35,10 +35,10 @@
         android:title="Privacy" />
 
 
-    <item
-        android:id="@+id/nav_ads"
-        android:icon="@drawable/ic_remove_ads"
-        android:title="Remove Ads" />
+<!--    <item-->
+<!--        android:id="@+id/nav_ads"-->
+<!--        android:icon="@drawable/ic_remove_ads"-->
+<!--        android:title="Remove Ads" />-->
 
 
 </menu>
