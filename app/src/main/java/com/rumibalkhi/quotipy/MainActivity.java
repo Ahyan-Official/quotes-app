@@ -1,6 +1,7 @@
 package com.rumibalkhi.quotipy;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,6 +18,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.rumibalkhi.quotipy.fragments.HomeFrag;
@@ -34,11 +40,31 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     ImageView share,fav;
     RelativeLayout JobTitles;
-
+    AdView mAdView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_drawer);
+
+
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+
+        SharedPreferences prefs = getSharedPreferences("ADS", MODE_PRIVATE);
+        String name = prefs.getString("showads", "true");
+
+        mAdView = findViewById(R.id.adView);
+
+        if(name.equals("true")){
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+        }
+
 
         bottomNavigationView = findViewById(R.id.bottom_nav);
         share = findViewById(R.id.share);
@@ -225,6 +251,14 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.nav_fav:
 
                     startActivity(new Intent(getApplicationContext(),FavoriteActivity.class));
+                    break;
+
+                case R.id.nav_ads:
+
+                    SharedPreferences.Editor editor = getSharedPreferences("ADS", MODE_PRIVATE).edit();
+                    editor.putString("showads", "false");
+                    editor.apply();
+                    mAdView.setVisibility(View.GONE);
                     break;
 
             }

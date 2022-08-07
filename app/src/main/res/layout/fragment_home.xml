@@ -17,19 +17,10 @@
             android:id="@+id/recycler_home"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_img" />
-
-
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:elevation="10dp"
-            android:indeterminateTint="@color/dark_blue"
-            android:visibility="gone"
             />
+
+
+
 
     </RelativeLayout>
 

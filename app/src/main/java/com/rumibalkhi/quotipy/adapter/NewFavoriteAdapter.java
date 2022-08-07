@@ -4,6 +4,7 @@ package com.rumibalkhi.quotipy.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.rumibalkhi.quotipy.PoemDetailActivity;
 import com.rumibalkhi.quotipy.R;
 import com.rumibalkhi.quotipy.models.NewFavouriteModel;
@@ -51,11 +53,32 @@ public class NewFavoriteAdapter extends RecyclerView.Adapter<NewFavoriteAdapter.
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        String name = stationList2.get(position).getName();
+
+
+        if(stationList2.get(position).getName().startsWith("http")){
+
+            holder.item_img_img.setVisibility(View.VISIBLE);
+
+            Glide.with(holder.itemView.getContext())
+                    .load(stationList2.get(position).getName())
+                    .placeholder(R.drawable.custom_bg)
+                    .error(R.drawable.custom_bg)
+                    .into(holder.item_img_img);
+
+            holder.tvName.setVisibility(View.GONE);
+
+        }else{
+
+            holder.tvName.setVisibility(View.VISIBLE);
+            holder.item_img_img.setVisibility(View.GONE);
+
+            String name = stationList2.get(position).getName();
+            holder.tvName.setText(name);
+
+        }
 
 
 
-        holder.tvName.setText(name);
 
 
         //on clicking layout
@@ -125,11 +148,14 @@ public class NewFavoriteAdapter extends RecyclerView.Adapter<NewFavoriteAdapter.
         ImageView img;
         LinearLayout layout;
 
+        ImageView item_img_img;
+
         ViewHolder(View itemView) {
             super(itemView);
 
             tvName = itemView.findViewById(R.id.item_fav);
             layout = itemView.findViewById(R.id.layout);
+            item_img_img = itemView.findViewById(R.id.item_img_img);
 
 
             itemView.setOnClickListener(this);
