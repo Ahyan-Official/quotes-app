@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        ads:adSize="BANNER"
+        ads:adSize="FULL_WIDTHx60"
         android:layout_above="@+id/bottom_nav"
         ads:adUnitId="@string/admob_banner_id"/>
 

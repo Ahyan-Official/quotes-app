@@ -1,5 +1,6 @@
 package com.rumibalkhi.quotipy.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -14,8 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.rumibalkhi.quotipy.R;
 import com.rumibalkhi.quotipy.models.NewPhotoModel;
 import com.rumibalkhi.quotipy.models.Photos;
@@ -41,7 +46,7 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotosHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PhotosHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PhotosHolder holder, @SuppressLint("RecyclerView") int position) {
 
         Glide.with(holder.itemView.getContext())
                 .load(list.get(position).getImg())
@@ -52,13 +57,36 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotosHold
 
         holder.save.setOnClickListener(v -> {
 
-            DatabaseReference aa = FirebaseDatabase.getInstance().getReference().child("favorite").push();
-            aa.child("text").setValue(list.get(position).getImg()).addOnSuccessListener(new OnSuccessListener<Void>() {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+
+            Query query = reference.child("favorite").orderByChild("text").equalTo(list.get(position).getImg());
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onSuccess(Void unused) {
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+
+                        for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                            // do something with the individual "issues"
+                        }
+
+                        Toast.makeText(ctx.getApplicationContext(), "Already added",Toast.LENGTH_SHORT).show();
+                    }else{
+                        DatabaseReference aa = FirebaseDatabase.getInstance().getReference().child("favorite").push();
+                        aa.child("text").setValue(list.get(position).getImg()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
 
 
-                    Toast.makeText(ctx ,"Saved",Toast.LENGTH_LONG).show();
+                                Toast.makeText(ctx ,"Added to Favorite",Toast.LENGTH_LONG).show();
+
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
                 }
             });
@@ -66,16 +94,41 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotosHold
 
         holder.fav.setOnClickListener(v -> {
 
-            DatabaseReference aa = FirebaseDatabase.getInstance().getReference().child("favorite").push();
-            aa.child("text").setValue(list.get(position).getImg()).addOnSuccessListener(new OnSuccessListener<Void>() {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+
+            Query query = reference.child("favorite").orderByChild("text").equalTo(list.get(position).getImg());
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onSuccess(Void unused) {
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        // dataSnapshot is the "issue" node with all children with id 0
+                        for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                            // do something with the individual "issues"
+                        }
+
+                        Toast.makeText(ctx.getApplicationContext(), "Already added",Toast.LENGTH_SHORT).show();
+                    }else{
+                        DatabaseReference aa = FirebaseDatabase.getInstance().getReference().child("favorite").push();
+                        aa.child("text").setValue(list.get(position).getImg()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
 
 
-                    Toast.makeText(ctx ,"Added to Favorite",Toast.LENGTH_LONG).show();
+                                Toast.makeText(ctx ,"Added to Favorite",Toast.LENGTH_LONG).show();
+
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
                 }
             });
+
+
 
 
         });

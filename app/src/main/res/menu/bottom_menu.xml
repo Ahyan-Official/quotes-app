@@ -22,6 +22,9 @@
         android:id="@+id/bottom_proverb"
         android:icon="@drawable/ic_proverb"
         android:title="Proverb" />
-
+    <item
+        android:id="@+id/bottom_bio"
+        android:icon="@drawable/ic_baseline_adjust_24"
+        android:title="Biography" />
 
 </menu>

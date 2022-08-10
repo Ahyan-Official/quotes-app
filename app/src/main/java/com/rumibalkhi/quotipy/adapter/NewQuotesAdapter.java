@@ -17,8 +17,12 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.rumibalkhi.quotipy.MainActivity;
 import com.rumibalkhi.quotipy.QuotesDetailActivity;
 import com.rumibalkhi.quotipy.R;
@@ -64,20 +68,43 @@ public class NewQuotesAdapter extends RecyclerView.Adapter<NewQuotesAdapter.View
 
         //on clicking layout
 
-        holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.item_img_fav.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View view) {
+            public void onClick(View view) {
 
-                DatabaseReference aa = FirebaseDatabase.getInstance().getReference().child("favorite").push();
-                aa.child("text").setValue(stationList2.get(position).getName()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+
+                Query query = reference.child("favorite").orderByChild("text").equalTo(stationList2.get(position).getName());
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onSuccess(Void unused) {
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            // dataSnapshot is the "issue" node with all children with id 0
+                            for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                                // do something with the individual "issues"
+                            }
+
+                            Toast.makeText(context.getApplicationContext(), "Already added",Toast.LENGTH_SHORT).show();
+                        }else{
+                            DatabaseReference aa = FirebaseDatabase.getInstance().getReference().child("favorite").push();
+                            aa.child("text").setValue(stationList2.get(position).getName()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
 
 
-                        Toast.makeText(context.getApplicationContext() ,"Added to Favorite",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(context.getApplicationContext() ,"Added to Favorite",Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
                     }
                 });
-                return false;
+
+
             }
         });
 
@@ -131,13 +158,14 @@ public class NewQuotesAdapter extends RecyclerView.Adapter<NewQuotesAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tvName;
         ImageView img;
-        LinearLayout layout;
+        LinearLayout layout,item_img_fav;
 
         ViewHolder(View itemView) {
             super(itemView);
 
             tvName = itemView.findViewById(R.id.item_quotes_quote);
             layout = itemView.findViewById(R.id.layout);
+            item_img_fav = itemView.findViewById(R.id.item_img_fav);
 
 
             itemView.setOnClickListener(this);

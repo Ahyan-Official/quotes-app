@@ -18,13 +18,16 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.rumibalkhi.quotipy.fragments.BioFrag;
 import com.rumibalkhi.quotipy.fragments.HomeFrag;
 import com.rumibalkhi.quotipy.fragments.PoemFrag;
 import com.rumibalkhi.quotipy.fragments.ProverbQuotes;
@@ -41,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
     ImageView share,fav;
     RelativeLayout JobTitles;
     AdView mAdView;
+    String name;
+    private InterstitialAd interstitial;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         SharedPreferences prefs = getSharedPreferences("ADS", MODE_PRIVATE);
-        String name = prefs.getString("showads", "true");
+        name = prefs.getString("showads", "true");
 
         mAdView = findViewById(R.id.adView);
 
@@ -64,6 +70,31 @@ public class MainActivity extends AppCompatActivity {
             AdRequest adRequest = new AdRequest.Builder().build();
             mAdView.loadAd(adRequest);
         }
+
+
+
+            MobileAds.initialize(this, getString(R.string.admob_app_id));
+            AdRequest adIRequest = new AdRequest.Builder().build();
+
+            // Prepare the Interstitial Ad Activity
+            interstitial = new InterstitialAd(MainActivity.this);
+
+            // Insert the Ad Unit ID
+            interstitial.setAdUnitId(getString(R.string.admob_interstitial_id));
+
+            // Interstitial Ad load Request
+            interstitial.loadAd(adIRequest);
+
+            // Prepare an Interstitial Ad Listener
+            interstitial.setAdListener(new AdListener()
+            {
+                public void onAdLoaded()
+                {
+                    // Call displayInterstitial() function when the Ad loads
+                }
+            });
+
+
 
 
         bottomNavigationView = findViewById(R.id.bottom_nav);
@@ -166,7 +197,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
+    public void displayInterstitial()
+    {
+        // If Interstitial Ads are loaded then show else show nothing.
+        if (interstitial.isLoaded()) {
+            interstitial.show();
+        }
+    }
     private void setFrags() {
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -182,15 +219,34 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
                 case R.id.bottom_poem:
+
+                    if(name.equals("true")) {
+                        displayInterstitial();
+                    }
+
+
+
                     selectedFragment = new PoemFrag();
                     break;
 
                 case R.id.bottom_quotes:
+
+                    if(name.equals("true")){
+                        displayInterstitial();
+
+                    }
+
+
                     selectedFragment = new QuotesFrag();
                     break;
 
                 case R.id.bottom_proverb:
+
                     selectedFragment = new ProverbQuotes();
+                    break;
+                case R.id.bottom_bio:
+
+                    selectedFragment = new BioFrag();
                     break;
 
             }
