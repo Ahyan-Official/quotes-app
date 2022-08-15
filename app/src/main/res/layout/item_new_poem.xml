@@ -77,11 +77,11 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
-        android:weightSum="3">
+        android:weightSum="2">
 
         <LinearLayout
             android:id="@+id/item_img_fav"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/btn_trans_bg"
@@ -107,6 +107,32 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/item_quotes_share"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_trans_bg"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_share"
+                app:tint="@color/orange" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="Share"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+        </LinearLayout>
 
 
 

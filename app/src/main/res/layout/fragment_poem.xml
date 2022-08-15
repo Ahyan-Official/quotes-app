@@ -26,15 +26,22 @@
     </SearchView>
 
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_quotes"
         android:layout_width="match_parent"
-        android:layout_below="@+id/search"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/_50sdp"
+        android:layout_above="@+id/bottom"
+        android:layout_below="@+id/search"
 
         />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+
+        android:layout_alignParentBottom="true"
+        android:id="@+id/bottom"/>
+
 
 
 

@@ -15,10 +15,10 @@
         <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/activity_poem_detail.xml" value="0.25416666666666665" />
         <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/activity_privacy.xml" value="0.24010416666666667" />
         <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/activity_quotes_detail.xml" value="0.25416666666666665" />
-        <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/fragment_home.xml" value="0.25416666666666665" />
-        <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/fragment_poem.xml" value="0.25416666666666665" />
-        <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/fragment_proverb_quotes.xml" value="0.25416666666666665" />
-        <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/fragment_quotes.xml" value="0.25416666666666665" />
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/fragment_home.xml" value="0.16666666666666666" />
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/fragment_poem.xml" value="0.22" />
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/fragment_proverb_quotes.xml" value="0.16666666666666666" />
+        <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/fragment_quotes.xml" value="0.16666666666666666" />
         <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/item_category_sub.xml" value="0.25416666666666665" />
         <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/item_img.xml" value="0.25416666666666665" />
         <entry key="..\:/Projects/QuotiPy/app/src/main/res/layout/item_new_favorite.xml" value="0.25416666666666665" />

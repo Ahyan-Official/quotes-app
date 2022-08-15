@@ -1,6 +1,10 @@
 package com.rumibalkhi.quotipy.fragments;
 
+
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,8 +20,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SearchView;
 
+import com.google.android.gms.ads.AdRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +36,7 @@ import com.rumibalkhi.quotipy.models.NewQuotesModel;
 import com.rumibalkhi.quotipy.models.Quotes;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -40,6 +47,7 @@ public class QuotesFrag extends Fragment {
     RecyclerView recyclerView;
     NewQuotesAdapter adapter;
     public List<NewQuotesModel> quotesModels = new ArrayList<>();
+
 
 
     @Override
@@ -56,41 +64,43 @@ public class QuotesFrag extends Fragment {
 
 
 
-        DatabaseReference dd = FirebaseDatabase.getInstance().getReference().child("quotes");
+        SharedPreferences prefs = getActivity().getSharedPreferences("ADS", MODE_PRIVATE);
+        String name = prefs.getString("showads", "true");
+        ImageView aa = layout.findViewById(R.id.bottom);
+        if(name.equals("false")){
 
-        dd.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                quotesModels.clear();
-                for (DataSnapshot dsp : snapshot.getChildren()) {
-
-                    String name= dsp.child("name").getValue().toString();
-
-                    Log.e("pooa", "onDataChange: "+name );
-
-                    NewQuotesModel qq = new NewQuotesModel(name);
+            aa.setVisibility(View.GONE);
+        }
 
 
-                    quotesModels.add(qq);
+        quotesModels.clear();
 
 
-                }
+        //ADD DATA HERE ////////////////////////////////////////
 
-                adapter = new NewQuotesAdapter(getActivity(), quotesModels);
-                recyclerView.setAdapter(adapter);
+        NewQuotesModel q1 = new NewQuotesModel("Hi new cowawdasd");
+        NewQuotesModel q2 = new NewQuotesModel("Hi new cowawdasd");
+        NewQuotesModel q3 = new NewQuotesModel("Hi new cowawdasd");
+        NewQuotesModel q4 = new NewQuotesModel("Hi new cowawdasd");
+        NewQuotesModel q5 = new NewQuotesModel("Hi new cowawdasd");
+        NewQuotesModel q6 = new NewQuotesModel("Hi new cowawdasd");
+        NewQuotesModel q7 = new NewQuotesModel("Hi new cowawdasd");
+        NewQuotesModel q8 = new NewQuotesModel("Hi new cowawdasd");
 
-                adapter.notifyDataSetChanged();
+        quotesModels.add(q1);
+        quotesModels.add(q2);
+        quotesModels.add(q3);
+        quotesModels.add(q4);
+        quotesModels.add(q5);
+        quotesModels.add(q6);
+        quotesModels.add(q7);
+        quotesModels.add(q8);
+        // ////////////////////////////////////////
 
-            }
+        adapter = new NewQuotesAdapter(getActivity(), quotesModels);
+        recyclerView.setAdapter(adapter);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
+        adapter.notifyDataSetChanged();
 
 
 

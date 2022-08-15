@@ -40,5 +40,9 @@
         android:icon="@drawable/ic_remove_ads"
         android:title="Remove Ads" />
 
-
+    <item
+        android:id="@+id/nav_web"
+        android:icon="@drawable/ic_baseline_airplay_24"
+        android:title="WebLink" />
+    
 </menu>

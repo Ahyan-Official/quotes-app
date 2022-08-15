@@ -17,6 +17,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.rumibalkhi.quotipy.Note;
 import com.rumibalkhi.quotipy.PoemDetailActivity;
 import com.rumibalkhi.quotipy.R;
 import com.rumibalkhi.quotipy.models.NewFavouriteModel;
@@ -29,17 +30,17 @@ public class NewFavoriteAdapter extends RecyclerView.Adapter<NewFavoriteAdapter.
 
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
-    List<NewFavouriteModel> stationList2;
-    List<NewFavouriteModel> stationList2Full;
+    List<Note> stationList2;
+    List<Note> stationList2Full;
     Context context;
 
 
     // data is passed into the constructor
-    public NewFavoriteAdapter(Context context, List<NewFavouriteModel> data) {
+    public NewFavoriteAdapter(Context context, List<Note> notes) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
-        stationList2 = data;
-        stationList2Full = new ArrayList<>(data);
+        stationList2 = notes;
+        stationList2Full = new ArrayList<>(notes);
 
     }
 
@@ -55,12 +56,12 @@ public class NewFavoriteAdapter extends RecyclerView.Adapter<NewFavoriteAdapter.
     public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
 
-        if(stationList2.get(position).getName().startsWith("http")){
+        if(stationList2.get(position).getTitle().startsWith("http")){
 
             holder.item_img_img.setVisibility(View.VISIBLE);
 
             Glide.with(holder.itemView.getContext())
-                    .load(stationList2.get(position).getName())
+                    .load(stationList2.get(position).getTitle())
                     .placeholder(R.drawable.custom_bg)
                     .error(R.drawable.custom_bg)
                     .into(holder.item_img_img);
@@ -72,7 +73,7 @@ public class NewFavoriteAdapter extends RecyclerView.Adapter<NewFavoriteAdapter.
             holder.tvName.setVisibility(View.VISIBLE);
             holder.item_img_img.setVisibility(View.GONE);
 
-            String name = stationList2.get(position).getName();
+            String name = stationList2.get(position).getTitle();
             holder.tvName.setText(name);
 
         }
@@ -81,21 +82,7 @@ public class NewFavoriteAdapter extends RecyclerView.Adapter<NewFavoriteAdapter.
 
 
 
-        //on clicking layout
-//        holder.layout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//
-//                Intent intent = new Intent(context, PoemDetailActivity.class);
-//                intent.putExtra("text", stationList2.get(position).getText());
-//                intent.putExtra("title", stationList2.get(position).getTitle());
-//
-//
-//                context.startActivity(intent);
-//
-//            }
-//        });
+
 
     }
 
@@ -113,15 +100,15 @@ public class NewFavoriteAdapter extends RecyclerView.Adapter<NewFavoriteAdapter.
     private Filter exampleFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<NewFavouriteModel> filteredList = new ArrayList<>();
+            List<Note> filteredList = new ArrayList<>();
 
             if (constraint == null || constraint.length() == 0) {
                 filteredList.addAll(stationList2Full);
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
-                for (NewFavouriteModel item : stationList2Full) {
-                    if (item.getName().toLowerCase().contains(filterPattern)) {
+                for (Note item : stationList2Full) {
+                    if (item.getTitle().toLowerCase().contains(filterPattern)) {
                         filteredList.add(item);
                     }
                 }

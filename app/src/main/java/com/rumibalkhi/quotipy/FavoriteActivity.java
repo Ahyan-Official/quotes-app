@@ -35,6 +35,8 @@ public class FavoriteActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     NewFavoriteAdapter adapter;
     public List<NewFavouriteModel> poemModels = new ArrayList<>();
+    SimpleDatabase simpleDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,40 +59,21 @@ public class FavoriteActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        DatabaseReference dd = FirebaseDatabase.getInstance().getReference().child("favorite");
-
-        dd.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                poemModels.clear();
-                for (DataSnapshot dsp : snapshot.getChildren()) {
-
-                    String text= dsp.child("text").getValue().toString();
-
-                    Log.e("pooa", "onDataChange: "+text );
-
-                    NewFavouriteModel qq = new NewFavouriteModel(text);
 
 
-                    poemModels.add(qq);
 
 
-                }
+        simpleDatabase = new SimpleDatabase(this);
+        List<Note> allNotes = simpleDatabase.getAllNotes();
+        adapter = new NewFavoriteAdapter(getApplicationContext(), allNotes);
 
-                adapter = new NewFavoriteAdapter(getApplicationContext(), poemModels);
-                recyclerView.setAdapter(adapter);
+        if(allNotes.isEmpty()){
 
-                adapter.notifyDataSetChanged();
+        }else {
+            recyclerView.setAdapter(adapter);
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
+            adapter.notifyDataSetChanged();
+        }
 
 
 

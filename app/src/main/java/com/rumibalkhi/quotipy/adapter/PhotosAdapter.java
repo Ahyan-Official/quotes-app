@@ -3,6 +3,7 @@ package com.rumibalkhi.quotipy.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.artjimlop.altex.AltexImageDownloader;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -21,10 +23,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.rumibalkhi.quotipy.Note;
 import com.rumibalkhi.quotipy.R;
+import com.rumibalkhi.quotipy.SimpleDatabase;
 import com.rumibalkhi.quotipy.models.NewPhotoModel;
 import com.rumibalkhi.quotipy.models.Photos;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotosHolder> {
@@ -32,7 +37,9 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotosHold
     List<NewPhotoModel> list;
 
     Context ctx;
-
+    Calendar c;
+    String todaysDate;
+    String currentTime;
     public PhotosAdapter(List<NewPhotoModel> list, Context ctx) {
         this.list = list;
         this.ctx = ctx;
@@ -57,77 +64,36 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotosHold
 
         holder.save.setOnClickListener(v -> {
 
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-
-            Query query = reference.child("favorite").orderByChild("text").equalTo(list.get(position).getImg());
-
-            query.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-
-                        for (DataSnapshot issue : dataSnapshot.getChildren()) {
-                            // do something with the individual "issues"
-                        }
-
-                        Toast.makeText(ctx.getApplicationContext(), "Already added",Toast.LENGTH_SHORT).show();
-                    }else{
-                        DatabaseReference aa = FirebaseDatabase.getInstance().getReference().child("favorite").push();
-                        aa.child("text").setValue(list.get(position).getImg()).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-
-
-                                Toast.makeText(ctx ,"Added to Favorite",Toast.LENGTH_LONG).show();
-
-                            }
-                        });
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+            Toast.makeText(ctx.getApplicationContext(), "Downloading",Toast.LENGTH_SHORT).show();
+            AltexImageDownloader.writeToDisk(ctx, list.get(position).getImg(), "IMAGES");
         });
 
         holder.fav.setOnClickListener(v -> {
 
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+            c = Calendar.getInstance();
+            todaysDate = c.get(Calendar.YEAR)+"/"+(c.get(Calendar.MONTH)+1)+"/"+c.get(Calendar.DAY_OF_MONTH);
+            Log.d("DATE", "Date: "+todaysDate);
+            currentTime = pad(c.get(Calendar.HOUR))+":"+pad(c.get(Calendar.MINUTE));
+            Log.d("TIME", "Time: "+currentTime);
 
-            Query query = reference.child("favorite").orderByChild("text").equalTo(list.get(position).getImg());
+            Note note = new Note(list.get(position).getImg(),list.get(position).getImg(),todaysDate,currentTime);
+            SimpleDatabase sDB = new SimpleDatabase(ctx);
 
-            query.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        // dataSnapshot is the "issue" node with all children with id 0
-                        for (DataSnapshot issue : dataSnapshot.getChildren()) {
-                            // do something with the individual "issues"
-                        }
+            List<Note> allNotes = sDB.getAllNotesCategory(list.get(position).getImg());
 
-                        Toast.makeText(ctx.getApplicationContext(), "Already added",Toast.LENGTH_SHORT).show();
-                    }else{
-                        DatabaseReference aa = FirebaseDatabase.getInstance().getReference().child("favorite").push();
-                        aa.child("text").setValue(list.get(position).getImg()).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
+            if(allNotes.isEmpty()){
+                long id = sDB.addNote(note);
+                Toast.makeText(ctx.getApplicationContext(), "Add to Favorites",Toast.LENGTH_SHORT).show();
 
 
-                                Toast.makeText(ctx ,"Added to Favorite",Toast.LENGTH_LONG).show();
+            }else {
 
-                            }
-                        });
-                    }
-                }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(ctx.getApplicationContext(), "Already Added to Favorites",Toast.LENGTH_SHORT).show();
 
-                }
-            });
 
+
+            }
 
 
 
@@ -145,7 +111,12 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotosHold
 
 
     }
+    private String pad(int time) {
+        if(time < 10)
+            return "0"+time;
+        return String.valueOf(time);
 
+    }
     @Override
     public int getItemCount() {
         return list.size();

@@ -2,6 +2,8 @@ package com.rumibalkhi.quotipy.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +23,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.rumibalkhi.quotipy.Note;
 import com.rumibalkhi.quotipy.R;
+import com.rumibalkhi.quotipy.SimpleDatabase;
 import com.rumibalkhi.quotipy.models.NewProverbModel;
 import com.rumibalkhi.quotipy.models.NewQuotesModel;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class NewProverbAdapter extends RecyclerView.Adapter<NewProverbAdapter.ViewHolder> implements Filterable {
@@ -36,6 +41,9 @@ public class NewProverbAdapter extends RecyclerView.Adapter<NewProverbAdapter.Vi
     List<NewProverbModel> stationList2Full;
     Context context;
 
+    Calendar c;
+    String todaysDate;
+    String currentTime;
 
     // data is passed into the constructor
     public NewProverbAdapter(Context context, List<NewProverbModel> data) {
@@ -67,41 +75,43 @@ public class NewProverbAdapter extends RecyclerView.Adapter<NewProverbAdapter.Vi
             @Override
             public void onClick(View view) {
 
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+                c = Calendar.getInstance();
+                todaysDate = c.get(Calendar.YEAR)+"/"+(c.get(Calendar.MONTH)+1)+"/"+c.get(Calendar.DAY_OF_MONTH);
+                Log.d("DATE", "Date: "+todaysDate);
+                currentTime = pad(c.get(Calendar.HOUR))+":"+pad(c.get(Calendar.MINUTE));
+                Log.d("TIME", "Time: "+currentTime);
 
-                Query query = reference.child("favorite").orderByChild("text").equalTo(stationList2.get(position).getText());
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            // dataSnapshot is the "issue" node with all children with id 0
-                            for (DataSnapshot issue : dataSnapshot.getChildren()) {
-                                // do something with the individual "issues"
-                            }
+                Note note = new Note(name,name,todaysDate,currentTime);
+                SimpleDatabase sDB = new SimpleDatabase(context);
 
-                            Toast.makeText(context.getApplicationContext(), "Already added",Toast.LENGTH_SHORT).show();
-                        }else{
-                            DatabaseReference aa = FirebaseDatabase.getInstance().getReference().child("favorite").push();
-                            aa.child("text").setValue(stationList2.get(position).getText()).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
+                List<Note> allNotes = sDB.getAllNotesCategory(name);
+
+                if(allNotes.isEmpty()){
+                    long id = sDB.addNote(note);
+                    Toast.makeText(context.getApplicationContext(), "Add to Favorites",Toast.LENGTH_SHORT).show();
 
 
-                                    Toast.makeText(context.getApplicationContext() ,"Added to Favorite",Toast.LENGTH_LONG).show();
-                                }
-                            });
-                        }
-                    }
+                }else {
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                   Toast.makeText(context.getApplicationContext(), "Already Added to Favorites",Toast.LENGTH_SHORT).show();
 
-                    }
-                });
+                }
+
+
 
             }
         });
 
+
+        holder.item_quotes_share.setOnClickListener(v -> {
+
+            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+            sharingIntent.setType("text/plain");
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, "Hey buddy! *" +"Check this motivational quote "+name);
+            sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+            context.startActivity(Intent.createChooser(sharingIntent, "ChikuAI Code Dev. Team"));
+
+        });
     }
 
     // total number of rows
@@ -151,7 +161,7 @@ public class NewProverbAdapter extends RecyclerView.Adapter<NewProverbAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tvName;
         ImageView img;
-        LinearLayout layout,item_img_fav;
+        LinearLayout layout,item_img_fav,item_quotes_share;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -159,6 +169,7 @@ public class NewProverbAdapter extends RecyclerView.Adapter<NewProverbAdapter.Vi
             tvName = itemView.findViewById(R.id.item_proverb_proverb);
             layout = itemView.findViewById(R.id.layout);
             item_img_fav = itemView.findViewById(R.id.item_img_fav);
+            item_quotes_share = itemView.findViewById(R.id.item_quotes_share);
 
 
             itemView.setOnClickListener(this);
@@ -183,5 +194,11 @@ public class NewProverbAdapter extends RecyclerView.Adapter<NewProverbAdapter.Vi
         void onItemClick(View view, int position);
     }
 
+    private String pad(int time) {
+        if(time < 10)
+            return "0"+time;
+        return String.valueOf(time);
+
+    }
 
 }

@@ -1,8 +1,11 @@
 package com.rumibalkhi.quotipy;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +18,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
@@ -60,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        isWriteStoragePermissionGranted();
 
         SharedPreferences prefs = getSharedPreferences("ADS", MODE_PRIVATE);
         name = prefs.getString("showads", "true");
@@ -311,6 +317,10 @@ public class MainActivity extends AppCompatActivity {
 
                 case R.id.nav_ads:
 
+                    finish();
+                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                    overridePendingTransition(0, 0);
+
                     SharedPreferences.Editor editor = getSharedPreferences("ADS", MODE_PRIVATE).edit();
                     editor.putString("showads", "false");
                     editor.apply();
@@ -342,6 +352,68 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    public  boolean isWriteStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                //Log.v(TAG,"Permission is granted2");
+                return true;
+            } else {
+
+                //Log.v(TAG,"Permission is revoked2");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            //Log.v(TAG,"Permission is granted2");
+            return true;
+        }
+    }
 
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 1: {
+                if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    if (ContextCompat.checkSelfPermission(         MainActivity.this,
+                            Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED){
+
+                        Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+            case 3:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+
+
+                    }
+                    //startLocationUpdates();
+                } else {
+                    // Permission Denied
+                }
+                break;
+            case 2:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                        //mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+                    }
+                    //startLocationUpdates();
+                } else {
+                    // Permission Denied
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                break;
+        }
+    }
 }

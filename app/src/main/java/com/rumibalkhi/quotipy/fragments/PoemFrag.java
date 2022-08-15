@@ -1,5 +1,8 @@
 package com.rumibalkhi.quotipy.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.SearchView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -50,44 +54,32 @@ public class PoemFrag extends Fragment {
         recyclerView.hasFixedSize();
 
 
+        SharedPreferences prefs = getActivity().getSharedPreferences("ADS", MODE_PRIVATE);
+        String name = prefs.getString("showads", "true");
+        ImageView aa = layout.findViewById(R.id.bottom);
+        if(name.equals("false")){
 
-        DatabaseReference dd = FirebaseDatabase.getInstance().getReference().child("poems");
+            aa.setVisibility(View.GONE);
+        }
 
-        dd.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                poemModels.clear();
-                for (DataSnapshot dsp : snapshot.getChildren()) {
-
-                    String text= dsp.child("text").getValue().toString();
-                    String title= dsp.child("title").getValue().toString();
-
-                    Log.e("pooa", "onDataChange: "+text );
-
-                    NewPoemModel qq = new NewPoemModel(text,title);
+        poemModels.clear();
 
 
-                    poemModels.add(qq);
+        // DATA HERE//////////////////////////////////////////
+
+        NewPoemModel qq = new NewPoemModel("asdasdas","titla");
 
 
-                }
-
-                adapter = new NewPoemAdapter(getActivity(), poemModels);
-                recyclerView.setAdapter(adapter);
-
-                adapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        poemModels.add(qq);
+        //////////////////////////////////////////
 
 
 
+
+        adapter = new NewPoemAdapter(getActivity(), poemModels);
+        recyclerView.setAdapter(adapter);
+
+        adapter.notifyDataSetChanged();
 
 
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

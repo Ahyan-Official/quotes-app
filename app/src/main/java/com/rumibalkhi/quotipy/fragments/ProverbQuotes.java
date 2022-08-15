@@ -1,5 +1,8 @@
 package com.rumibalkhi.quotipy.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.SearchView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -52,40 +56,29 @@ public class ProverbQuotes extends Fragment {
 
         search.setQueryHint("Custom Search Hint");
 
-        DatabaseReference dd = FirebaseDatabase.getInstance().getReference().child("proverb");
+        SharedPreferences prefs = getActivity().getSharedPreferences("ADS", MODE_PRIVATE);
+        String name = prefs.getString("showads", "true");
+        ImageView aa = layout.findViewById(R.id.bottom);
+        if(name.equals("false")){
 
-        dd.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                quotesModels.clear();
-                for (DataSnapshot dsp : snapshot.getChildren()) {
-
-                    String text = dsp.child("text").getValue().toString();
-
-                    Log.e("pooa", "onDataChange: " + text);
-
-                    NewProverbModel qq = new NewProverbModel(text);
+            aa.setVisibility(View.GONE);
+        }
 
 
-                    quotesModels.add(qq);
+        quotesModels.clear();
 
 
-                }
+        //ADD DATA HERE ////////////////////////////////////////
+        NewProverbModel qq = new NewProverbModel("asdasdasdasd");
 
-                adapter = new NewProverbAdapter(getActivity(), quotesModels);
-                recyclerView.setAdapter(adapter);
 
-                adapter.notifyDataSetChanged();
+        quotesModels.add(qq);
+        // ////////////////////////////////////////
 
-            }
+        adapter = new NewProverbAdapter(getActivity(), quotesModels);
+        recyclerView.setAdapter(adapter);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
+        adapter.notifyDataSetChanged();
 
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

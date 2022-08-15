@@ -30,11 +30,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/search"
-        android:layout_marginBottom="@dimen/_50sdp"
+        android:layout_above="@+id/bottom"
 
         />
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
 
+        android:layout_alignParentBottom="true"
+        android:id="@+id/bottom"/>
 
 
 </RelativeLayout>
