@@ -3,22 +3,33 @@ package com.rumibalkhi.quotipy.models;
 public class NewPhotoModel {
 
 
-    String img;
+    int img;
+    String name;
 
 
     public NewPhotoModel() {
     }
 
-    public NewPhotoModel(String img) {
+    public NewPhotoModel(int img, String name) {
         this.img = img;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 
-    public String getImg() {
+
+    public int getImg() {
         return img;
     }
 
-    public void setImg(String img) {
+    public void setImg(int img) {
         this.img = img;
     }
 }

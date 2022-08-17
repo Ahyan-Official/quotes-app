@@ -4,6 +4,8 @@ package com.rumibalkhi.quotipy.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,13 +27,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.rumibalkhi.quotipy.Note;
+import com.rumibalkhi.quotipy.Note2;
 import com.rumibalkhi.quotipy.PoemDetailActivity;
 import com.rumibalkhi.quotipy.QuotesDetailActivity;
 import com.rumibalkhi.quotipy.R;
 import com.rumibalkhi.quotipy.SimpleDatabase;
+import com.rumibalkhi.quotipy.SimpleDatabase2;
 import com.rumibalkhi.quotipy.models.NewPoemModel;
 import com.rumibalkhi.quotipy.models.NewQuotesModel;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -99,9 +104,15 @@ public class NewPoemAdapter extends RecyclerView.Adapter<NewPoemAdapter.ViewHold
                 currentTime = pad(c.get(Calendar.HOUR))+":"+pad(c.get(Calendar.MINUTE));
                 Log.d("TIME", "Time: "+currentTime);
 
-                Note note = new Note(name,name,todaysDate,currentTime);
-                SimpleDatabase sDB = new SimpleDatabase(context);
-                List<Note> allNotes = sDB.getAllNotesCategory(name);
+                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.images);
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+                byte[] img = bos.toByteArray();
+
+                Note2 note = new Note2(stationList2.get(position).getText(),img,"false");
+                SimpleDatabase2 sDB = new SimpleDatabase2(context);
+
+                List<Note2> allNotes = sDB.getAllNotesCategory(stationList2.get(position).getText());
 
                 if(allNotes.isEmpty()){
                     long id = sDB.addNote(note);
@@ -110,9 +121,13 @@ public class NewPoemAdapter extends RecyclerView.Adapter<NewPoemAdapter.ViewHold
 
                 }else {
 
+
                     Toast.makeText(context.getApplicationContext(), "Already Added to Favorites",Toast.LENGTH_SHORT).show();
 
+
+
                 }
+
 
 
             }
@@ -122,7 +137,7 @@ public class NewPoemAdapter extends RecyclerView.Adapter<NewPoemAdapter.ViewHold
 
             Intent sharingIntent = new Intent(Intent.ACTION_SEND);
             sharingIntent.setType("text/plain");
-            sharingIntent.putExtra(Intent.EXTRA_TEXT, "Hey buddy! *" +"Check this motivational quote "+name);
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, "Hey buddy! *" +"Check this Poem "+name+"\n"+stationList2.get(position).getText());
             sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
             context.startActivity(Intent.createChooser(sharingIntent, "ChikuAI Code Dev. Team"));
 

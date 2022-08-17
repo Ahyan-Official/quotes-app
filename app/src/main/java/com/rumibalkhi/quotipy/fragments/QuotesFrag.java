@@ -78,14 +78,14 @@ public class QuotesFrag extends Fragment {
 
         //ADD DATA HERE ////////////////////////////////////////
 
-        NewQuotesModel q1 = new NewQuotesModel("Hi new cowawdasd");
-        NewQuotesModel q2 = new NewQuotesModel("Hi new cowawdasd");
-        NewQuotesModel q3 = new NewQuotesModel("Hi new cowawdasd");
-        NewQuotesModel q4 = new NewQuotesModel("Hi new cowawdasd");
-        NewQuotesModel q5 = new NewQuotesModel("Hi new cowawdasd");
-        NewQuotesModel q6 = new NewQuotesModel("Hi new cowawdasd");
-        NewQuotesModel q7 = new NewQuotesModel("Hi new cowawdasd");
-        NewQuotesModel q8 = new NewQuotesModel("Hi new cowawdasd");
+        NewQuotesModel q1 = new NewQuotesModel("Hi new cowawdasdd2");
+        NewQuotesModel q2 = new NewQuotesModel("Hi new cowawdasdd23");
+        NewQuotesModel q3 = new NewQuotesModel("Hi new cowawdasd8");
+        NewQuotesModel q4 = new NewQuotesModel("Hi new cowawdasd6");
+        NewQuotesModel q5 = new NewQuotesModel("Hi new cowawdasd4");
+        NewQuotesModel q6 = new NewQuotesModel("Hi new cowawdasd9");
+        NewQuotesModel q7 = new NewQuotesModel("Hi new cowawdasd567");
+        NewQuotesModel q8 = new NewQuotesModel("Hi new cowawdasd256");
 
         quotesModels.add(q1);
         quotesModels.add(q2);

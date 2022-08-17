@@ -35,7 +35,7 @@ public class FavoriteActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     NewFavoriteAdapter adapter;
     public List<NewFavouriteModel> poemModels = new ArrayList<>();
-    SimpleDatabase simpleDatabase;
+    SimpleDatabase2 simpleDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +63,8 @@ public class FavoriteActivity extends AppCompatActivity {
 
 
 
-        simpleDatabase = new SimpleDatabase(this);
-        List<Note> allNotes = simpleDatabase.getAllNotes();
+        simpleDatabase = new SimpleDatabase2(this);
+        List<Note2> allNotes = simpleDatabase.getAllNotes();
         adapter = new NewFavoriteAdapter(getApplicationContext(), allNotes);
 
         if(allNotes.isEmpty()){

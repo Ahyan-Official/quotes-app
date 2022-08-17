@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.rumibalkhi.quotipy.Note;
+import com.rumibalkhi.quotipy.Note2;
 import com.rumibalkhi.quotipy.PoemDetailActivity;
 import com.rumibalkhi.quotipy.R;
 import com.rumibalkhi.quotipy.models.NewFavouriteModel;
@@ -30,13 +31,13 @@ public class NewFavoriteAdapter extends RecyclerView.Adapter<NewFavoriteAdapter.
 
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
-    List<Note> stationList2;
-    List<Note> stationList2Full;
+    List<Note2> stationList2;
+    List<Note2> stationList2Full;
     Context context;
 
 
     // data is passed into the constructor
-    public NewFavoriteAdapter(Context context, List<Note> notes) {
+    public NewFavoriteAdapter(Context context, List<Note2> notes) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         stationList2 = notes;
@@ -56,12 +57,12 @@ public class NewFavoriteAdapter extends RecyclerView.Adapter<NewFavoriteAdapter.
     public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
 
-        if(stationList2.get(position).getTitle().startsWith("http")){
+        if(stationList2.get(position).getIsimage().startsWith("true")){
 
             holder.item_img_img.setVisibility(View.VISIBLE);
 
             Glide.with(holder.itemView.getContext())
-                    .load(stationList2.get(position).getTitle())
+                    .load(stationList2.get(position).getImage())
                     .placeholder(R.drawable.custom_bg)
                     .error(R.drawable.custom_bg)
                     .into(holder.item_img_img);
@@ -73,7 +74,7 @@ public class NewFavoriteAdapter extends RecyclerView.Adapter<NewFavoriteAdapter.
             holder.tvName.setVisibility(View.VISIBLE);
             holder.item_img_img.setVisibility(View.GONE);
 
-            String name = stationList2.get(position).getTitle();
+            String name = stationList2.get(position).getName();
             holder.tvName.setText(name);
 
         }
@@ -100,15 +101,15 @@ public class NewFavoriteAdapter extends RecyclerView.Adapter<NewFavoriteAdapter.
     private Filter exampleFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<Note> filteredList = new ArrayList<>();
+            List<Note2> filteredList = new ArrayList<>();
 
             if (constraint == null || constraint.length() == 0) {
                 filteredList.addAll(stationList2Full);
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
-                for (Note item : stationList2Full) {
-                    if (item.getTitle().toLowerCase().contains(filterPattern)) {
+                for (Note2 item : stationList2Full) {
+                    if (item.getName().toLowerCase().contains(filterPattern)) {
                         filteredList.add(item);
                     }
                 }

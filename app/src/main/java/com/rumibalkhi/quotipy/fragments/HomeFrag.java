@@ -78,7 +78,7 @@ public class HomeFrag extends Fragment {
 
 
         // DATA HERE//////////////////////////////////////////
-        NewPhotoModel qq = new NewPhotoModel("https://www.linkpicture.com/q/margaretmead1.jpg");
+        NewPhotoModel qq = new NewPhotoModel(R.drawable.images,"image2");
 
 
         poemModels.add(qq);

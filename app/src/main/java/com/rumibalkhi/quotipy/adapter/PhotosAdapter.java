@@ -3,6 +3,10 @@ package com.rumibalkhi.quotipy.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,11 +28,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.rumibalkhi.quotipy.Note;
+import com.rumibalkhi.quotipy.Note2;
 import com.rumibalkhi.quotipy.R;
 import com.rumibalkhi.quotipy.SimpleDatabase;
+import com.rumibalkhi.quotipy.SimpleDatabase2;
 import com.rumibalkhi.quotipy.models.NewPhotoModel;
 import com.rumibalkhi.quotipy.models.Photos;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 import java.util.List;
 
@@ -65,7 +72,12 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotosHold
         holder.save.setOnClickListener(v -> {
 
             Toast.makeText(ctx.getApplicationContext(), "Downloading",Toast.LENGTH_SHORT).show();
-            AltexImageDownloader.writeToDisk(ctx, list.get(position).getImg(), "IMAGES");
+
+
+            Bitmap icon = BitmapFactory.decodeResource(ctx.getResources(), list.get(position).getImg());
+            saveImage(icon,ctx);
+            //AltexImageDownloader.writeToDisk(ctx, list.get(position).getImg(), "IMAGES");
+
         });
 
         holder.fav.setOnClickListener(v -> {
@@ -76,10 +88,15 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotosHold
             currentTime = pad(c.get(Calendar.HOUR))+":"+pad(c.get(Calendar.MINUTE));
             Log.d("TIME", "Time: "+currentTime);
 
-            Note note = new Note(list.get(position).getImg(),list.get(position).getImg(),todaysDate,currentTime);
-            SimpleDatabase sDB = new SimpleDatabase(ctx);
+            Bitmap bitmap = BitmapFactory.decodeResource(ctx.getResources(), list.get(position).getImg());
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+            byte[] img = bos.toByteArray();
 
-            List<Note> allNotes = sDB.getAllNotesCategory(list.get(position).getImg());
+            Note2 note = new Note2(list.get(position).getName(),img,"true");
+            SimpleDatabase2 sDB = new SimpleDatabase2(ctx);
+
+            List<Note2> allNotes = sDB.getAllNotesCategory(list.get(position).getName());
 
             if(allNotes.isEmpty()){
                 long id = sDB.addNote(note);
@@ -101,15 +118,35 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotosHold
 
         holder.share.setOnClickListener(v -> {
 
-            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-            sharingIntent.setType("text/plain");
-            sharingIntent.putExtra(Intent.EXTRA_TEXT, "Hey buddy! *" +"Check this motivational quote"+list.get(position).getImg());
-            sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
-            ctx.startActivity(Intent.createChooser(sharingIntent, "ChikuAI Code Dev. Team"));
+            Bitmap icon = BitmapFactory.decodeResource(ctx.getResources(), list.get(position).getImg());
+            shareImage(icon,ctx);
+//            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+//            sharingIntent.setType("text/plain");
+//            sharingIntent.putExtra(Intent.EXTRA_TEXT, "Hey buddy! *" +"Check this motivational quote"+list.get(position).getImg());
+//            sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+//            ctx.startActivity(Intent.createChooser(sharingIntent, "ChikuAI Code Dev. Team"));
 
         });
 
 
+    }
+
+    public void saveImage(Bitmap resource, Context activity) {
+        String bitmapPath = MediaStore.Images.Media.insertImage(activity.getContentResolver(), resource, activity.getString(R.string.app_name), null);
+        Uri bitmapUri = Uri.parse(bitmapPath);
+
+    }
+    public void shareImage(Bitmap resource, Context activity) {
+        String bitmapPath = MediaStore.Images.Media.insertImage(activity.getContentResolver(), resource, activity.getString(R.string.app_name), null);
+        Uri bitmapUri = Uri.parse(bitmapPath);
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("image/png");
+
+
+        intent.putExtra(Intent.EXTRA_TEXT, "Hey buddy! *" +"Check this motivational quote ");
+
+        intent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
+        activity.startActivity(Intent.createChooser(intent, "Share"));
     }
     private String pad(int time) {
         if(time < 10)

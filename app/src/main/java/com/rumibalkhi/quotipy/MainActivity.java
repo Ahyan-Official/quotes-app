@@ -1,15 +1,22 @@
 package com.rumibalkhi.quotipy;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -40,6 +47,10 @@ import com.rumibalkhi.quotipy.fragments.QuotesFrag;
 
 import org.w3c.dom.Text;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+
 public class MainActivity extends AppCompatActivity {
 
     NavigationView nav;
@@ -52,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     String name;
     private InterstitialAd interstitial;
 
+    @SuppressLint("WrongThread")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -202,6 +214,56 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+//        Bitmap icon = BitmapFactory.decodeResource(this.getResources(),
+//                R.drawable.image);
+//        Intent share = new Intent(Intent.ACTION_SEND);
+//        share.setType("image/jpeg");
+//
+//        ContentValues values = new ContentValues();
+//        values.put(MediaStore.Images.Media.TITLE, "title");
+//        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+//        Uri uri = getContentResolver().insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+//                values);
+//
+//
+//        OutputStream outstream;
+//        try {
+//            outstream = getContentResolver().openOutputStream(uri);
+//            icon.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
+//            outstream.close();
+//        } catch (Exception e) {
+//            System.err.println(e.toString());
+//        }
+//
+//        share.putExtra(Intent.EXTRA_STREAM, uri);
+//        startActivity(Intent.createChooser(share, "Share Image"));
+
+
+    }
+
+    public void shareDrawable(Context context, int resourceId, String fileName) {
+        try {
+            //convert drawable resource to bitmap
+            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId);
+
+            //save bitmap to app cache folder
+            File outputFile = new File(context.getCacheDir(), fileName + ".png");
+            FileOutputStream outPutStream = new FileOutputStream(outputFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outPutStream);
+            outPutStream.flush();
+            outPutStream.close();
+            outputFile.setReadable(true, false);
+
+            //share file
+            Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(outputFile));
+            shareIntent.setType("image/png");
+            context.startActivity(shareIntent);
+        }
+        catch (Exception e) {
+            Toast.makeText(context, "error", Toast.LENGTH_LONG).show();
+        }
     }
     public void displayInterstitial()
     {
@@ -325,6 +387,15 @@ public class MainActivity extends AppCompatActivity {
                     editor.putString("showads", "false");
                     editor.apply();
                     mAdView.setVisibility(View.GONE);
+
+                case R.id.nav_web:
+
+
+                    startActivity(new Intent(getApplicationContext(),WebViewActivity.class));
+                    overridePendingTransition(0, 0);
+
+
+
                     break;
 
             }
