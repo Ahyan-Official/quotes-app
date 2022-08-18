@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -15,6 +16,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.SearchView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,7 +39,7 @@ public class FavoriteActivity extends AppCompatActivity {
     NewFavoriteAdapter adapter;
     public List<NewFavouriteModel> poemModels = new ArrayList<>();
     SimpleDatabase2 simpleDatabase;
-
+    AdView mAdView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,11 +64,29 @@ public class FavoriteActivity extends AppCompatActivity {
 
 
 
+        mAdView = findViewById(R.id.adView);
+
+
+
+
+        SharedPreferences prefs = getSharedPreferences("ADS", MODE_PRIVATE);
+        String name = prefs.getString("showads", "true");
+
+        if(name.equals("false")){
+            mAdView.setVisibility(View.GONE);
+        }
+
+        if(name.equals("true")){
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+            mAdView.setVisibility(View.VISIBLE);
+
+        }
 
 
         simpleDatabase = new SimpleDatabase2(this);
         List<Note2> allNotes = simpleDatabase.getAllNotes();
-        adapter = new NewFavoriteAdapter(getApplicationContext(), allNotes);
+        adapter = new NewFavoriteAdapter(this, allNotes);
 
         if(allNotes.isEmpty()){
 
@@ -73,6 +94,7 @@ public class FavoriteActivity extends AppCompatActivity {
             recyclerView.setAdapter(adapter);
 
             adapter.notifyDataSetChanged();
+
         }
 
 

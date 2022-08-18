@@ -17,4 +17,10 @@ public class WebViewActivity extends AppCompatActivity {
 
         webView.loadUrl("https://www.google.com/");
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

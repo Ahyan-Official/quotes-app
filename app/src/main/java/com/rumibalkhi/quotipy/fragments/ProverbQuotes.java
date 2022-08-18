@@ -69,10 +69,19 @@ public class ProverbQuotes extends Fragment {
 
 
         //ADD DATA HERE ////////////////////////////////////////
-        NewProverbModel qq = new NewProverbModel("asdasdasdasd");
+        NewProverbModel q1 = new NewProverbModel("asdasdasdasd");
+        NewProverbModel q2 = new NewProverbModel("asdasdasdasd");
+        NewProverbModel q3 = new NewProverbModel("asdasdasdasd");
+        NewProverbModel q4 = new NewProverbModel("asdasdasdasd");
+        NewProverbModel q5 = new NewProverbModel("asdasdasdasd");
 
 
-        quotesModels.add(qq);
+        quotesModels.add(q1);
+        quotesModels.add(q2);
+        quotesModels.add(q3);
+        quotesModels.add(q4);
+        quotesModels.add(q5);
+
         // ////////////////////////////////////////
 
         adapter = new NewProverbAdapter(getActivity(), quotesModels);

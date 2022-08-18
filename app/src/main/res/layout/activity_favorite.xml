@@ -31,7 +31,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/search"
-        android:layout_marginBottom="@dimen/_50sdp"
+        android:layout_above="@+id/adView"
 
         />
+
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        ads:adSize="FULL_WIDTHx60"
+        android:layout_alignParentBottom="true"
+        ads:adUnitId="@string/admob_banner_id"/>
+
+
+
+
 </RelativeLayout>

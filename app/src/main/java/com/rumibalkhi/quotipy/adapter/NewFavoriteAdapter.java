@@ -12,6 +12,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -60,6 +61,7 @@ public class NewFavoriteAdapter extends RecyclerView.Adapter<NewFavoriteAdapter.
         if(stationList2.get(position).getIsimage().startsWith("true")){
 
             holder.item_img_img.setVisibility(View.VISIBLE);
+            holder.item_quotes_bg.setVisibility(View.GONE);
 
             Glide.with(holder.itemView.getContext())
                     .load(stationList2.get(position).getImage())
@@ -69,10 +71,32 @@ public class NewFavoriteAdapter extends RecyclerView.Adapter<NewFavoriteAdapter.
 
             holder.tvName.setVisibility(View.GONE);
 
+        }else if (stationList2.get(position).getIsimage().startsWith("poem")){
+
+            holder.tvName.setVisibility(View.VISIBLE);
+            holder.item_img_img.setVisibility(View.GONE);
+
+
+            String name = stationList2.get(position).getName();
+            holder.tvName.setText(name);
+            holder.tvName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent intent = new Intent(context, PoemDetailActivity.class);
+                    intent.putExtra("text", stationList2.get(position).getIsimage().substring(4));
+                    intent.putExtra("title", stationList2.get(position).getName());
+
+
+                    context.startActivity(intent);
+                }
+            });
+
         }else{
 
             holder.tvName.setVisibility(View.VISIBLE);
             holder.item_img_img.setVisibility(View.GONE);
+
 
             String name = stationList2.get(position).getName();
             holder.tvName.setText(name);
@@ -127,6 +151,7 @@ public class NewFavoriteAdapter extends RecyclerView.Adapter<NewFavoriteAdapter.
             stationList2.addAll((List) results.values);
             notifyDataSetChanged();
         }
+
     };
 
 
@@ -137,6 +162,7 @@ public class NewFavoriteAdapter extends RecyclerView.Adapter<NewFavoriteAdapter.
         LinearLayout layout;
 
         ImageView item_img_img;
+        RelativeLayout item_quotes_bg;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -144,6 +170,7 @@ public class NewFavoriteAdapter extends RecyclerView.Adapter<NewFavoriteAdapter.
             tvName = itemView.findViewById(R.id.item_fav);
             layout = itemView.findViewById(R.id.layout);
             item_img_img = itemView.findViewById(R.id.item_img_img);
+            item_quotes_bg = itemView.findViewById(R.id.item_quotes_bg);
 
 
             itemView.setOnClickListener(this);

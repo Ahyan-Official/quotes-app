@@ -67,7 +67,24 @@ public class PoemFrag extends Fragment {
 
         // DATA HERE//////////////////////////////////////////
 
-        NewPoemModel qq = new NewPoemModel("asdasdas","titla");
+
+        NewPoemModel qq = new NewPoemModel("Body my house\n" +
+                "my horse my hound\n" +
+                "what will I do\n" +
+                "when you are fallen\n" +
+                "\n" +
+                "Where will I sleep\n" +
+                "How will I ride\n" +
+                "What will I hunt\n" +
+                "\n" +
+                "Where can I go\n" +
+                "without my mount\n" +
+                "all eager and quick\n" +
+                "How will I know\n" +
+                "in thicket ahead\n" +
+                "is danger or treasure\n" +
+                "when Body my good\n" +
+                "bright dog is dead","May Swenson");
 
 
         poemModels.add(qq);

@@ -163,6 +163,8 @@ public class MainActivity extends AppCompatActivity {
         Favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 startActivity(new Intent(getApplicationContext(),FavoriteActivity.class));
 
             }
@@ -170,13 +172,20 @@ public class MainActivity extends AppCompatActivity {
         Feedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),FeedbackActivity.class));
+                JobTitles.setVisibility(View.GONE);
+
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto","abc@gmail.com", null));
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+                emailIntent.putExtra(Intent.EXTRA_TEXT, "Enter your feedback here");
+                startActivity(Intent.createChooser(emailIntent, "Send email..."));
+
 
             }
         });
         Privacy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 startActivity(new Intent(getApplicationContext(),PrivacyActivity.class));
 
             }
@@ -195,6 +204,8 @@ public class MainActivity extends AppCompatActivity {
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                JobTitles.setVisibility(View.GONE);
 
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
@@ -370,7 +381,12 @@ public class MainActivity extends AppCompatActivity {
 
                 case R.id.nav_feedback:
 
-                    startActivity(new Intent(getApplicationContext(),FeedbackActivity.class));
+                    Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto","abc@gmail.com", null));
+                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+                    emailIntent.putExtra(Intent.EXTRA_TEXT, "Enter your feedback here");
+                    startActivity(Intent.createChooser(emailIntent, "Send email..."));
+
+                    //startActivity(new Intent(getApplicationContext(),FeedbackActivity.class));
                     break;
                 case R.id.nav_fav:
 
@@ -387,6 +403,7 @@ public class MainActivity extends AppCompatActivity {
                     editor.putString("showads", "false");
                     editor.apply();
                     mAdView.setVisibility(View.GONE);
+                    break;
 
                 case R.id.nav_web:
 

@@ -109,7 +109,7 @@ public class NewPoemAdapter extends RecyclerView.Adapter<NewPoemAdapter.ViewHold
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
                 byte[] img = bos.toByteArray();
 
-                Note2 note = new Note2(stationList2.get(position).getText(),img,"false");
+                Note2 note = new Note2(stationList2.get(position).getTitle(),img,"poem"+stationList2.get(position).getText());
                 SimpleDatabase2 sDB = new SimpleDatabase2(context);
 
                 List<Note2> allNotes = sDB.getAllNotesCategory(stationList2.get(position).getText());
