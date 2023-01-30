@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.rumibalkhi.quotipy">
+    package="com.rumibalkhi.ahyan2">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -19,28 +19,28 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".WebViewActivity"
+            android:name="com.rumibalkhi.ahyan2.WebViewActivity"
             android:exported="false" />
         <activity
-            android:name=".FavoriteActivity"
+            android:name="com.rumibalkhi.ahyan2.FavoriteActivity"
             android:exported="false"
             android:theme="@style/AppThemeBar" />
         <activity
-            android:name=".FeedbackActivity"
+            android:name="com.rumibalkhi.ahyan2.FeedbackActivity"
             android:exported="false" />
         <activity
-            android:name=".PrivacyActivity"
+            android:name="com.rumibalkhi.ahyan2.PrivacyActivity"
             android:exported="false"
             android:theme="@style/AppThemeBar" />
         <activity
-            android:name=".PoemDetailActivity"
+            android:name="com.rumibalkhi.ahyan2.PoemDetailActivity"
             android:exported="false"
             android:theme="@style/AppThemeBar" />
         <activity
-            android:name=".QuotesDetailActivity"
+            android:name="com.rumibalkhi.ahyan2.QuotesDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.rumibalkhi.ahyan2.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
